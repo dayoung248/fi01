@@ -14,17 +14,73 @@
                         <f:heading>
                             <Title text="검색조건"/>
                         </f:heading>
-                        <!--<f:expandedContent>
-                            <Label text="This is a subheading"/>
-                        </f:expandedContent>-->
-                        <!--<f:snappedContent>
-                            <Label text="This is a subheading"/>
+                        <f:expandedContent>
+                            <HBox class="sapUiTinyMarginTop sapUiSmallMarginEnd" justifyContent="End"
+                                                          binding="{/ZCDS_D4_FI_0013(bukrs='1000',gjahr='2026')}">
+
+                                <ObjectStatus text="전체: {TotalOpenCount}건" state="None" class="sapUiSmallMarginEnd"/>
+                                <ObjectStatus text="장기지연: {LongDelayCount}건" state="Error" class="sapUiSmallMarginEnd" icon="sap-icon://error" />
+                                <ObjectStatus text="지연: {DelayCount}건" state="Warning" class="sapUiSmallMarginEnd" icon="sap-icon://information" />
+                                <ObjectStatus text="경고: {WarningCount}건" state="Information" class="sapUiSmallMarginEnd" icon="sap-icon://alert" />
+                                <ObjectStatus text="정상: {NormalCount}건" state="Success" icon="sap-icon://sys-enter-2"/>
+                            </HBox>
+                        </f:expandedContent>
+                        <f:snappedContent>
+                            <!--<Label text="This is a subheading"/>-->
+                            <HBox class="sapUiTinyMarginTop sapUiSmallMarginEnd" justifyContent="End"
+                                                          binding="{/ZCDS_D4_FI_0013(bukrs='1000',gjahr='2026')}">
+                                <GenericTag text="전체: "
+                                        status="None"
+                                        design="StatusIconHidden"
+                                        class="sapUiSmallMarginEnd">
+                                        <ObjectNumber number="{TotalOpenCount}"
+                                            unit="건"
+                                            emphasized="false"
+                                            state="None"/>
+                                </GenericTag>
+                                <GenericTag text="장기지연: "
+                                        status="Error"
+                                        design="StatusIconHidden"
+                                        class="sapUiSmallMarginEnd">
+                                        <ObjectNumber number="{LongDelayCount}"
+                                            unit="건"
+                                            emphasized="false"
+                                            state="Error"/>
+                                </GenericTag>
+                                <GenericTag text="지연: "
+                                        status="Warning"
+                                        design="StatusIconHidden"
+                                        class="sapUiSmallMarginEnd">
+                                        <ObjectNumber number="{WarningCount}"
+                                            unit="건"
+                                            emphasized="false"
+                                            state="Warning"/>
+                                </GenericTag>
+                                <GenericTag text="경고: "
+                                        status="Information"
+                                        design="StatusIconHidden"
+                                        class="sapUiSmallMarginEnd">
+                                        <ObjectNumber number="{DelayCount}"
+                                            unit="건"
+                                            emphasized="false"
+                                            state="Information"/>
+                                </GenericTag>
+                                <GenericTag text="정상: "
+                                        status="Success"
+                                        design="StatusIconHidden"
+                                        class="sapUiSmallMarginEnd">
+                                        <ObjectNumber number="{NormalCount}"
+                                            unit="건"
+                                            emphasized="false"
+                                            state="Success"/>
+                                </GenericTag>
+                            </HBox>
                         </f:snappedContent>
-                        <f:snappedTitleOnMobile>
+                        <!--<f:snappedTitleOnMobile>
                             <Title text="This is a subheading"/>
                         </f:snappedTitleOnMobile>-->
-                        <f:content>
-                            <!--<OverflowToolbar>
+                        <!--<f:content>
+                            <OverflowToolbar>
                                 <GenericTag text="SR"
                                     status="Error"
                                     press=".onGenericTagPress"
@@ -34,8 +90,8 @@
                                         emphasized="false"
                                         state="Error"/>
                                 </GenericTag>
-                            </OverflowToolbar>-->
-                        </f:content>
+                            </OverflowToolbar>
+                        </f:content>-->
                         <!--<f:actions>
                             <ToolbarSpacer/>
                             <Button
@@ -101,13 +157,15 @@
                                                             <Input value="{/Delay_status}" />
                                                         </VBox>
                                                     </HBox>
-                                                    <HBox class="sapUiTinyMarginTop sapUiSmallMarginEnd" justifyContent="End"
-                                                          items="{/ZCDS_D4_FI_0013}">
-                                                        <ObjectStatus text="장기지연 {LongDelayCount}건" state="Information" class="sapUiSmallMarginEnd"/>
-                                                        <ObjectStatus text="지연 {DelayCount}건" state="Error" class="sapUiSmallMarginEnd"/>
-                                                        <ObjectStatus text="경고 {WarningCount}건" state="Warning"/>
-                                                        <ObjectStatus text="정상 {NormalCount}건" state="Success"/>
-                                                    </HBox>
+                                                    <!--<HBox class="sapUiTinyMarginTop sapUiSmallMarginEnd" justifyContent="End"
+                                                          binding="{/ZCDS_D4_FI_0013(bukrs='1000',gjahr='2026')}">
+
+                                                        <ObjectStatus text="전체: {TotalOpenCount}건" state="None" class="sapUiSmallMarginEnd"/>
+                                                        <ObjectStatus text="장기지연: {LongDelayCount}건" state="Error" class="sapUiSmallMarginEnd" icon="sap-icon://error" />
+                                                        <ObjectStatus text="지연: {DelayCount}건" state="Warning" class="sapUiSmallMarginEnd" icon="sap-icon://information" />
+                                                        <ObjectStatus text="경고: {WarningCount}건" state="Information" class="sapUiSmallMarginEnd" icon="sap-icon://alert" />
+                                                        <ObjectStatus text="정상: {NormalCount}건" state="Success" icon="sap-icon://sys-enter-2"/>
+                                                    </HBox>-->
                                                     <HBox
                                                         justifyContent="End"
                                                         width="auto"
@@ -130,7 +188,75 @@
                         </FlexBox>
                     </f:DynamicPageHeader>
                 </f:header>
+                <f:content>
+                    <Table
+                        items="{/ZCDS_D4_FI_0012}">
+                        <columns>
+                            <Column> <Text text="전표번호" /></Column>
+                            <Column> <Text text="고객번호" /></Column>
+                            <Column> <Text text="고객명" /></Column>
+                            <Column> <Text text="전표금액" /></Column>
+                            <Column> <Text text="반제처리금액" /> </Column>
+                            <Column> <Text text="미결액" /> </Column>
+                            <Column> <Text text="지급만기일" /> </Column>
+                            <Column> <Text text="수금현황" /> </Column>
+                            <Column> <Text text="지연상태" /> </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="{belnr}" />
+                                    <Text text="{kunnr}" />
+                                    <Text text="{name}" />
+
+                                    <!-- 전표금액 -->
+                                    <ObjectNumber
+                                    number="{ parts: [
+                                                        'dmbtr',
+                                                        'waers'
+                                                    ],
+                                            type: 'sap.ui.model.type.Currency',
+                                            formatOptions: { showMeasure: false }
+                                                }"
+                                        unit="{waers}" />    
+
+                                    <!-- 반제처리금액 -->  
+                                    <ObjectNumber
+                                    number="{ parts: [
+                                                        'ClearedAmount',
+                                                        'waers'
+                                                    ],
+                                            type: 'sap.ui.model.type.Currency',
+                                            formatOptions: { showMeasure: false }
+                                            }"
+                                        unit="{waers}" /> 
+
+                                    <!-- 미결액 -->
+                                    <ObjectNumber
+                                    number="{ parts: [ 
+                                                        'OpenedAmount',
+                                                        'waers'         
+                                                    ],
+                                            type: 'sap.ui.model.type.Currency',
+                                            formatOptions: { showMeasure: false }
+                                            }"
+                                        unit="{waers}" />
+                                    <Text text="{
+                                                    path: 'duedat',
+                                                    type: 'sap.ui.model.type.DateTime',
+                                                    formatOptions: { pattern: 'yyyy.MM.dd' }
+                                                }" />
+                                    <ProgressIndicator percentValue="{PaymentRate}" displayValue="{PaymentRate}%" />
+                                    <ObjectStatus text="{Delay_status}" />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </f:content>
             </f:DynamicPage>
+
+        </Page>
+</mvc:View>
             <!--<Panel
                 headerText="조회조건"
                 expandable="true"
@@ -199,5 +325,3 @@
                 </form:SimpleForm>
             </content>
         </Panel> -->
-    </Page>
-</mvc:View>
