@@ -1,0 +1,203 @@
+<mvc:View controllerName="code.t4.ui5.fi01.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:f="sap.f"
+    xmlns:layout="sap.ui.layout">
+    <Page id="page" title="{i18n>title}"
+            showHeader="false">
+        
+            <f:DynamicPage id="dynamicPageId" preserveHeaderStateOnScroll="true" fitContent="true">
+                <!-- DynamicPage Title -->
+                <f:title>
+                    <f:DynamicPageTitle>
+                        <f:heading>
+                            <Title text="검색조건"/>
+                        </f:heading>
+                        <!--<f:expandedContent>
+                            <Label text="This is a subheading"/>
+                        </f:expandedContent>-->
+                        <!--<f:snappedContent>
+                            <Label text="This is a subheading"/>
+                        </f:snappedContent>
+                        <f:snappedTitleOnMobile>
+                            <Title text="This is a subheading"/>
+                        </f:snappedTitleOnMobile>-->
+                        <f:content>
+                            <!--<OverflowToolbar>
+                                <GenericTag text="SR"
+                                    status="Error"
+                                    press=".onGenericTagPress"
+                                    design="StatusIconHidden">
+                                    <ObjectNumber number="2"
+                                        unit="M"
+                                        emphasized="false"
+                                        state="Error"/>
+                                </GenericTag>
+                            </OverflowToolbar>-->
+                        </f:content>
+                        <!--<f:actions>
+                            <ToolbarSpacer/>
+                            <Button
+                                    text="Edit"
+                                    type="Emphasized"/>
+                            <Button
+                                    text="Delete"
+                                    type="Transparent"/>
+                            <Button
+                                    text="Copy"
+                                    type="Transparent"/>
+                            <Button
+                                    icon="sap-icon://action"
+                                    type="Transparent"/>
+                        </f:actions>-->
+                    </f:DynamicPageTitle>
+                </f:title>
+            
+                
+			
+            <!-- DynamicPage Header -->
+            <f:header>
+                <f:DynamicPageHeader pinnable="true" class="sapUiNoContentPadding">
+                        <FlexBox
+                                alignItems="Start"
+                                justifyContent="SpaceBetween">
+                            <items>
+                                <Panel
+                                    backgroundDesign="Transparent"
+                                    class="sapUiNoContentPadding">
+                                    <content>
+                                        <form:SimpleForm
+                                            layout="ResponsiveGridLayout"
+                                            class="sapUiTinyMargin"
+                                            width="auto"
+                                            height="auto"
+                                            >
+                                            <form:content>
+                                                 <VBox class="sapUiSmallMarginBeginEnd sapUiTinyMarginTopBottom">
+                                                    <HBox justifyContent="Center">
+                                                        <VBox class="sapUiSmallMarginEnd">
+                                                            <Label text="회사코드" />
+                                                            <Input value="{/bukrs}" placeholder="예: 1000" />
+                                                        </VBox>
+                                                        <VBox class="sapUiSmallMarginEnd">
+                                                            <Label text="회계연도" />
+                                                            <Input value="{/gjahr}" />
+                                                        </VBox>
+                                                        <VBox class="sapUiSmallMarginEnd">
+                                                            <Label text="회계월" />
+                                                            <Input value="{/monat}" />
+                                                        </VBox>
+                                                        <VBox class="sapUiSmallMarginEnd">
+                                                            <Label text="회계주차" />
+                                                            <Input value="{/weeks}" />
+                                                        </VBox>
+                                                        <VBox class="sapUiSmallMarginEnd">
+                                                            <Label text="고객번호" />
+                                                            <Input value="{/kunnr}" />
+                                                        </VBox>
+                                                        <VBox class="sapUiSmallMarginEnd">
+                                                            <Label text="지연상태" />
+                                                            <Input value="{/Delay_status}" />
+                                                        </VBox>
+                                                    </HBox>
+                                                    <HBox class="sapUiTinyMarginTop sapUiSmallMarginEnd" justifyContent="End"
+                                                          items="{/ZCDS_D4_FI_0013}">
+                                                        <ObjectStatus text="장기지연 {LongDelayCount}건" state="Information" class="sapUiSmallMarginEnd"/>
+                                                        <ObjectStatus text="지연 {DelayCount}건" state="Error" class="sapUiSmallMarginEnd"/>
+                                                        <ObjectStatus text="경고 {WarningCount}건" state="Warning"/>
+                                                        <ObjectStatus text="정상 {NormalCount}건" state="Success"/>
+                                                    </HBox>
+                                                    <HBox
+                                                        justifyContent="End"
+                                                        width="auto"
+                                                        class="sapUiTinyMarginTop sapUiSmallMarginEnd">
+                                                        <Button 
+                                                            text="조회"
+                                                            press=".onSave"
+                                                            type="Emphasized"
+                                                            class="sapUiTinyMarginEnd" />
+                                                        <Button 
+                                                            text="초기화" 
+                                                            press=".onReset" />
+                                                    </HBox>
+                                                </VBox>
+                                            </form:content>
+                                        </form:SimpleForm>
+                                    </content>
+                                </Panel>
+                            </items>
+                        </FlexBox>
+                    </f:DynamicPageHeader>
+                </f:header>
+            </f:DynamicPage>
+            <!--<Panel
+                headerText="조회조건"
+                expandable="true"
+                expanded="true"
+                class="sapUiResponsiveMargin"
+                width="auto">
+
+            <content>
+
+                <form:SimpleForm
+                    layout="ResponsiveGridLayout"
+                    class="sapUiSmallMargin"
+                    width="auto"
+                    height="auto"
+                    >
+                    <f:toolbar> 
+                        <Toolbar>
+                            <Title text="조회조건"/>
+                            <ToolbarSpacer/>
+                        </Toolbar>
+                    </f:toolbar>
+                    <form:content>
+                        <VBox 
+                            class="sapUiSmallMargin">
+                            <HBox justifyContent="Center">
+                                <VBox class="sapUiSmallMarginEnd">
+                                    <Label text="회사코드" />
+                                    <Input value="{/bukrs}" />
+                                </VBox>
+                                <VBox class="sapUiSmallMarginEnd">
+                                    <Label text="회계연도" />
+                                    <Input value="{/gjahr}" />
+                                </VBox>
+                                <VBox class="sapUiSmallMarginEnd">
+                                    <Label text="회계월" />
+                                    <Input value="{/monat}" />
+                                </VBox>
+                                <VBox class="sapUiSmallMarginEnd">
+                                    <Label text="회계주차" />
+                                    <Input value="{/weeks}" />
+                                </VBox>
+                                <VBox class="sapUiSmallMarginEnd">
+                                    <Label text="고객번호" />
+                                    <Input value="{/kunnr}" />
+                                </VBox>
+                                <VBox class="sapUiSmallMarginEnd">
+                                    <Label text="지연상태" />
+                                    <Input value="{/Delay_status}" />
+                                </VBox>
+                            </HBox>
+                            <HBox
+                                justifyContent="End"
+                                width="auto"
+                                class="sapUiSmallMarginTop sapUiSmallMarginEnd">
+                                <Button 
+                                    text="조회"
+                                    press=".onSave"
+                                    type="Emphasized"
+                                    class="sapUiTinyMarginEnd" />
+                                <Button 
+                                    text="초기화" 
+                                    press=".onReset" />
+                            </HBox>
+                        </VBox>
+                    </form:content>
+                </form:SimpleForm>
+            </content>
+        </Panel> -->
+    </Page>
+</mvc:View>
