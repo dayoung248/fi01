@@ -246,7 +246,7 @@
                                                     type: 'sap.ui.model.type.DateTime',
                                                     formatOptions: { pattern: 'yyyy.MM.dd' }
                                                 }" />
-                                    <ProgressIndicator percentValue="{PaymentRate}" displayValue="{PaymentRate}%" />
+                                    <ProgressIndicator percentValue="{ClearedRate}" displayValue="{ClearedRate}%" />
                                     <ObjectStatus text="{Delay_status}" />
                                 </cells>
                             </ColumnListItem>
