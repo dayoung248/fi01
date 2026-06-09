@@ -16,6 +16,16 @@ sap.ui.define([
 
     return Controller.extend("code.t4.ui5.fi01.controller.Main", {
         onInit() {
+            var oData = [
+                { Status: "", Description: "" },
+                { Status: "LON", Description: "장기지연" },
+                { Status: "DEL", Description: "지연" },
+                { Status: "WAR", Description: "임박" },
+                { Status: "NOR", Description: "정상" }
+            ];
+
+            var oModel = new JSONModel(oData);
+            this.getView().setModel(oModel, "Status");
         },
         onSearch(oEvent){
             var aFilters = [];
@@ -32,6 +42,7 @@ sap.ui.define([
             var oToDate   = sDuedat.getSecondDateValue();
             var sKunnr = this.byId("idKunnr").getValue().toUpperCase();;
             var sKunnrName = this.byId("idKunnrName").getValue();
+            var sDelayStatus = this.byId("idDelayStatus").getSelectedKey();
 
             if (sBukrs && sBukrs.length > 0) { // 만약에 회사코드가 있고, 길이가 0 이상이면,
 
@@ -74,24 +85,53 @@ sap.ui.define([
                 aFilters.push(new Filter("name", FilterOperator.Contains, sKunnrName));
             }
 
+            if (sDelayStatus && sDelayStatus.length > 0) { // 만약에 상태가 있고, 길이가 0 이상이면,
+                aFilters.push(new Filter("Delay_status", FilterOperator.EQ, sDelayStatus));
+            }
+
             var oTable = this.byId("idTable");
             var oBinding = oTable.getBinding("items");
             oBinding.filter(aFilters);
                 
-           console.log(sFromDate, sToDate, sKunnrName);
+           console.log(sDelayStatus);
         },
         onReset(){
+            // 검색조건 초기화
+            this.byId("idBukrs").setValue("");
+            this.byId("idGjahr").setValue("");
+            this.byId("idDuedat").setValue("");
+            this.byId("idKunnr").removeAllTokens();
+            this.byId("idKunnrName").setValue("");
+            this.byId("idDelayStatus").setSelectedKey("");
 
+            // 테이블 필터 초기화
+            var oTable = this.byId("idTable");
+            var oBinding = oTable.getBinding("items");
+
+            if (oBinding) {
+                oBinding.filter([]);
+            }
         },
 
         // 고객 Value Help 버튼 눌렀을 때 실행
        onValueHelpRequest() {
-                console.log("a");
 
                 var oKunnr = this.byId("idKunnr");
 
                 if (this._oCustomerVH) {
                     this._oCustomerVH.setTokens(oKunnr.getTokens());
+
+                    var oTable = this._oCustomerVH.getTable();
+                    
+                    // 선택된 것들 
+                    if (oTable) {
+                        oTable.clearSelection(); // sap.ui.table.Table 기준
+                    }
+
+                    if (this._oCustomerVH) {
+                        this._oCustomerVH.setTokens([]);
+                    }
+
                     this._oCustomerVH.open();
                     return;
                 }
@@ -137,7 +177,83 @@ sap.ui.define([
 
             onCustomerVHCancel() {
                 this._oCustomerVH.close();
+            },
+
+            onAll(){
+                var oTable = this.byId("idTable");
+                var oBinding = oTable.getBinding("items");
+
+                oBinding.filter([]);
+            },
+
+            onLongDelay(oEvent){
+                var sStatus = oEvent.getSource().data("delayStatus");
+                var oTable = this.byId("idTable"); 
+                var oBinding = oTable.getBinding("items"); // sap.m.Table 기준
+                var aFilters = []; 
+
+                if (sStatus) {
+                    aFilters.push(new Filter("DelayStatus", FilterOperator.EQ, sStatus));
+                }
+
+                oBinding.filter(aFilters);
+            },
+
+            onDelay(oEvent){
+                var sStatus = oEvent.getSource().data("delayStatus");
+                var oTable = this.byId("idTable"); 
+                var oBinding = oTable.getBinding("items"); // sap.m.Table 기준
+                var aFilters = []; 
+
+                if (sStatus) {
+                    aFilters.push(new Filter("DelayStatus", FilterOperator.EQ, sStatus));
+                }
+
+                oBinding.filter(aFilters);
+            },
+
+            onWarning(oEvent){
+                var sStatus = oEvent.getSource().data("delayStatus");
+                var oTable = this.byId("idTable"); 
+                var oBinding = oTable.getBinding("items"); // sap.m.Table 기준
+                var aFilters = []; 
+
+                if (sStatus) {
+                    aFilters.push(new Filter("DelayStatus", FilterOperator.EQ, sStatus));
+                }
+
+                oBinding.filter(aFilters);
+            },
+
+            onNormal(oEvent){
+                var sStatus = oEvent.getSource().data("delayStatus");
+                var oTable = this.byId("idTable"); 
+                var oBinding = oTable.getBinding("items"); // sap.m.Table 기준
+                var aFilters = []; 
+
+                if (sStatus) {
+                    aFilters.push(new Filter("DelayStatus", FilterOperator.EQ, sStatus));
+                }
+
+                oBinding.filter(aFilters);
+            },
+
+            onStatus(oEvent){
+                var sStatus = oEvent.getSource().data("Delay_status");
+                var oTable = this.byId("idTable"); 
+                var oBinding = oTable.getBinding("items"); // sap.m.Table 기준
+                var aFilters = []; 
+
+                if (sStatus) {
+                    aFilters.push(new Filter("Delay_status", FilterOperator.EQ, sStatus));
+                }
+
+                oBinding.filter(aFilters);
+
+                console.log(sStatus);
             }
+
+
 
             //onCustomerVHAfterClose() {
             //    this._oCustomerVH.destroy();

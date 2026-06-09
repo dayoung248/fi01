@@ -3,7 +3,8 @@
     xmlns="sap.m"
     xmlns:form="sap.ui.layout.form"
     xmlns:f="sap.f"
-    xmlns:layout="sap.ui.layout">
+    xmlns:layout="sap.ui.layout"
+    xmlns:core="sap.ui.core">
     <Page id="page" title="{i18n>title}"
             showHeader="false">
         
@@ -21,7 +22,7 @@
                                 <ObjectStatus text="전체: {TotalOpenCount}건" state="None" class="sapUiSmallMarginEnd"/>
                                 <ObjectStatus text="장기지연: {LongDelayCount}건" state="Error" class="sapUiSmallMarginEnd" icon="sap-icon://error" />
                                 <ObjectStatus text="지연: {DelayCount}건" state="Warning" class="sapUiSmallMarginEnd" icon="sap-icon://information" />
-                                <ObjectStatus text="경고: {WarningCount}건" state="Information" class="sapUiSmallMarginEnd" icon="sap-icon://alert" />
+                                <ObjectStatus text="임박: {WarningCount}건" state="Information" class="sapUiSmallMarginEnd" icon="sap-icon://alert" />
                                 <ObjectStatus text="정상: {NormalCount}건" state="Success" icon="sap-icon://sys-enter-2"/>
                             </HBox>
                         </f:expandedContent>
@@ -30,7 +31,9 @@
                             <HBox class="sapUiTinyMarginTop sapUiSmallMarginEnd" justifyContent="End"
                                                           binding="{/ZCDS_D4_FI_0013(bukrs='1000',gjahr='2026')}">
                                 <GenericTag text="전체: "
+                                        id="idAll"
                                         status="None"
+                                        press=".onAll"
                                         design="StatusIconHidden"
                                         class="sapUiSmallMarginEnd">
                                         <ObjectNumber number="{TotalOpenCount}"
@@ -39,36 +42,59 @@
                                             state="None"/>
                                 </GenericTag>
                                 <GenericTag text="장기지연: "
+                                        id="idLongDelay"
                                         status="Error"
+                                        press=".onStatus"
                                         design="StatusIconHidden"
                                         class="sapUiSmallMarginEnd">
+
+                                        <customData>
+                                            <core:CustomData key="Delay_status" value="LON" />
+                                        </customData>
+
                                         <ObjectNumber number="{LongDelayCount}"
                                             unit="건"
                                             emphasized="false"
                                             state="Error"/>
                                 </GenericTag>
                                 <GenericTag text="지연: "
+                                        id="idDelay"
                                         status="Warning"
+                                        press=".onStatus"
                                         design="StatusIconHidden"
                                         class="sapUiSmallMarginEnd">
-                                        <ObjectNumber number="{WarningCount}"
+                                        <customData>
+                                            <core:CustomData key="Delay_status" value="DEL" />
+                                        </customData>
+                                        <ObjectNumber number="{DelayCount}"
                                             unit="건"
                                             emphasized="false"
                                             state="Warning"/>
                                 </GenericTag>
-                                <GenericTag text="경고: "
+                                <GenericTag
+                                        id="idWarning" 
+                                        text="임박: "
                                         status="Information"
+                                        press=".onStatus"
                                         design="StatusIconHidden"
                                         class="sapUiSmallMarginEnd">
-                                        <ObjectNumber number="{DelayCount}"
+                                        <customData>
+                                            <core:CustomData key="Delay_status" value="WAR" />
+                                        </customData>
+                                        <ObjectNumber number="{WarningCount}"
                                             unit="건"
                                             emphasized="false"
                                             state="Information"/>
                                 </GenericTag>
                                 <GenericTag text="정상: "
+                                        id="idNormal"
                                         status="Success"
+                                        press=".onStatus"
                                         design="StatusIconHidden"
                                         class="sapUiSmallMarginEnd">
+                                        <customData>
+                                            <core:CustomData key="Delay_status" value="NOR" />
+                                        </customData>
                                         <ObjectNumber number="{NormalCount}"
                                             unit="건"
                                             emphasized="false"
@@ -137,7 +163,7 @@
                                                         </VBox>
                                                         <VBox class="sapUiSmallMarginEnd">
                                                             <Label text="회계연도" />
-                                                            <Input id="idGjahr" value="{/gjahr}" />
+                                                            <Input id="idGjahr" value="{/gjahr}" placeholder="예: 2026" />
                                                         </VBox>
                                                         <!--<VBox class="sapUiSmallMarginEnd">
                                                             <Label text="회계월" />
@@ -164,6 +190,8 @@
                                                             <!--<Input id="idKunnr" value="{/kunnr}" />-->
                                                             <MultiInput
                                                                 id="idKunnr"
+                                                                tokenUpdate=".onKunnrTokenUpdate"
+                                                                placeholder="Value Help에서 선택"
                                                                 showValueHelp="true"
                                                                 valueHelpRequest=".onValueHelpRequest" />
                                                         </VBox>
@@ -173,7 +201,15 @@
                                                         </VBox>
                                                         <VBox class="sapUiSmallMarginEnd">
                                                             <Label text="지연상태" />
-                                                            <Input value="{/Delay_status}" />
+                                                            <!--<Input id="idDelayStatus" value="{/Delay_status}" />-->
+                                                            <Select
+                                                                id="idDelayStatus"
+                                                                selectedKey="{/Delay_Status}"
+                                                                items="{Status>/}" > 
+                                                                <core:Item
+                                                                    key="{Status>Status}"
+                                                                    text="{Status>Description}" />
+                                                            </Select>
                                                         </VBox>
                                                     </HBox>
                                                     <!--<HBox class="sapUiTinyMarginTop sapUiSmallMarginEnd" justifyContent="End"
@@ -277,7 +313,7 @@
                                         <ObjectStatus 
                                             text="{= ${Delay_status} === 'DEL' ? '지연' : 
                                                      ${Delay_status} === 'LON' ? '장기지연' :
-                                                     ${Delay_status} === 'WAR' ? '경고' : '정상' }"
+                                                     ${Delay_status} === 'WAR' ? '임박' : '정상' }"
                                             state="{= ${Delay_status} === 'DEL' ? 'Error' : 
                                                      ${Delay_status} === 'LON' ? 'warning' :
                                                      ${Delay_status} === 'WAR' ? 'Information' : 'Success' }"/>
