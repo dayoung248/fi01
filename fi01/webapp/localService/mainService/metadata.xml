@@ -32,6 +32,13 @@
     </edmx:Reference>
     <edmx:DataServices m:DataServiceVersion="2.0">
         <Schema Namespace="ZGWD4FI0001_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="ZCDS_D4_FI_0007Type" sap:label="[FI] 계좌입출금내역 BP SH 를 위한 CDS View" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="BP_part"/>
+                </Key>
+                <Property Name="BP_part" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="고객번호"/>
+                <Property Name="Name" Type="Edm.String" MaxLength="35" sap:label="이름"/>
+            </EntityType>
             <EntityType Name="ZCDS_D4_FI_0012Type" sap:label="[FI] 청구대금 관리(미납액) CDS View" sap:content-version="1">
                 <Key>
                     <PropertyRef Name="bukrs"/>
@@ -40,16 +47,16 @@
                     <PropertyRef Name="monat"/>
                     <PropertyRef Name="weeks"/>
                 </Key>
-                <Property Name="bukrs" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="회사 코드"/>
-                <Property Name="belnr" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="FI 전표번호"/>
+                <Property Name="bukrs" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="회사 코드" sap:quickinfo="회사코드"/>
+                <Property Name="belnr" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="전표번호"/>
                 <Property Name="gjahr" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="NonNegative" sap:label="회계연도"/>
                 <Property Name="monat" Type="Edm.String" Nullable="false" MaxLength="2" sap:display-format="NonNegative" sap:label="회계월"/>
                 <Property Name="weeks" Type="Edm.String" Nullable="false" MaxLength="2" sap:display-format="NonNegative" sap:label="주차"/>
                 <Property Name="budat" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="전기일"/>
                 <Property Name="dmbtr" Type="Edm.Decimal" Precision="24" Scale="3" sap:unit="waers" sap:label="금액"/>
                 <Property Name="ClearedAmount" Type="Edm.Decimal" Precision="24" Scale="3" sap:unit="waers"/>
-                <Property Name="OpenedAmount" Type="Edm.Decimal" Precision="25" Scale="3" sap:unit="waers"/>
-                <Property Name="ClearedRate" Type="Edm.Decimal" Precision="5" Scale="2"/>
+                <Property Name="OpenedAmount" Type="Edm.Decimal" Precision="16" Scale="2" sap:unit="waers"/>
+                <Property Name="ClearedRate" Type="Edm.Decimal" Precision="15" Scale="2"/>
                 <Property Name="waers" Type="Edm.String" MaxLength="5" sap:display-format="UpperCase" sap:label="통화" sap:semantics="currency-code"/>
                 <Property Name="kunnr" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="고객번호"/>
                 <Property Name="name" Type="Edm.String" MaxLength="35" sap:label="이름"/>
@@ -68,10 +75,10 @@
                     <PropertyRef Name="bukrs"/>
                     <PropertyRef Name="gjahr"/>
                 </Key>
-                <Property Name="bukrs" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="회사 코드"/>
+                <Property Name="bukrs" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="회사 코드" sap:quickinfo="회사코드"/>
                 <Property Name="gjahr" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="NonNegative" sap:label="회계연도"/>
                 <Property Name="TotalOpenCount" Type="Edm.Int32"/>
-                <Property Name="TotalOpenAmount" Type="Edm.Decimal" Precision="25" Scale="3" sap:unit="waers"/>
+                <Property Name="TotalOpenAmount" Type="Edm.Decimal" Precision="16" Scale="2" sap:unit="waers"/>
                 <Property Name="LongDelayCount" Type="Edm.Byte"/>
                 <Property Name="LongDelayAmount" Type="Edm.Decimal" Precision="23" Scale="2" sap:unit="waers"/>
                 <Property Name="DelayCount" Type="Edm.Byte"/>
@@ -83,6 +90,7 @@
                 <Property Name="waers" Type="Edm.String" MaxLength="5" sap:display-format="UpperCase" sap:label="통화" sap:semantics="currency-code"/>
             </EntityType>
             <EntityContainer Name="ZGWD4FI0001_SRV_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="ZCDS_D4_FI_0007" EntityType="ZGWD4FI0001_SRV.ZCDS_D4_FI_0007Type" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
                 <EntitySet Name="ZCDS_D4_FI_0012" EntityType="ZGWD4FI0001_SRV.ZCDS_D4_FI_0012Type" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
                 <EntitySet Name="ZCDS_D4_FI_0013" EntityType="ZGWD4FI0001_SRV.ZCDS_D4_FI_0013Type" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
             </EntityContainer>

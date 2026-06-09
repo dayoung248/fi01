@@ -127,30 +127,49 @@
                                             layout="ResponsiveGridLayout"
                                             class="sapUiTinyMargin"
                                             width="auto"
-                                            height="auto"
                                             >
                                             <form:content>
                                                  <VBox class="sapUiSmallMarginBeginEnd sapUiTinyMarginTopBottom">
                                                     <HBox justifyContent="Center">
                                                         <VBox class="sapUiSmallMarginEnd">
                                                             <Label text="회사코드" />
-                                                            <Input value="{/bukrs}" placeholder="예: 1000" />
+                                                            <Input id="idBukrs" value="{/bukrs}" placeholder="예: 1000" />
                                                         </VBox>
                                                         <VBox class="sapUiSmallMarginEnd">
                                                             <Label text="회계연도" />
-                                                            <Input value="{/gjahr}" />
+                                                            <Input id="idGjahr" value="{/gjahr}" />
                                                         </VBox>
-                                                        <VBox class="sapUiSmallMarginEnd">
+                                                        <!--<VBox class="sapUiSmallMarginEnd">
                                                             <Label text="회계월" />
-                                                            <Input value="{/monat}" />
-                                                        </VBox>
-                                                        <VBox class="sapUiSmallMarginEnd">
+                                                            <Input id="idMonat" value="{/monat}" />
+                                                        </VBox>-->
+                                                        <!--<VBox class="sapUiSmallMarginEnd">
                                                             <Label text="회계주차" />
-                                                            <Input value="{/weeks}" />
+                                                            <Input id="idWeeks" value="{/weeks}" />
+                                                        </VBox>-->
+                                                        <VBox class="sapUiSmallMarginEnd">
+                                                            <Label text="지급만기일" />
+                                                            <DateRangeSelection
+                                                                id="idDuedat"
+                                                                displayFormat="yyyy.MM.dd"
+                                                                valueFormat="yyyy.MM.dd"
+                                                                placeholder="지급만기일 범위 선택" />
+                                                            <!--<MultiInput
+                                                                id="idDuedat"
+                                                                showValueHelp="true"
+                                                                valueHelpRequest="onValueHelpRequest" />-->
                                                         </VBox>
                                                         <VBox class="sapUiSmallMarginEnd">
                                                             <Label text="고객번호" />
-                                                            <Input value="{/kunnr}" />
+                                                            <!--<Input id="idKunnr" value="{/kunnr}" />-->
+                                                            <MultiInput
+                                                                id="idKunnr"
+                                                                showValueHelp="true"
+                                                                valueHelpRequest=".onValueHelpRequest" />
+                                                        </VBox>
+                                                        <VBox class="sapUiSmallMarginEnd">
+                                                            <Label text="고객명" />
+                                                            <Input id="idKunnrName" value="{/name}" />
                                                         </VBox>
                                                         <VBox class="sapUiSmallMarginEnd">
                                                             <Label text="지연상태" />
@@ -172,7 +191,7 @@
                                                         class="sapUiTinyMarginTop sapUiSmallMarginEnd">
                                                         <Button 
                                                             text="조회"
-                                                            press=".onSave"
+                                                            press=".onSearch"
                                                             type="Emphasized"
                                                             class="sapUiTinyMarginEnd" />
                                                         <Button 
@@ -190,8 +209,11 @@
                 </f:header>
                 <f:content>
                     <Table
+                        id="idTable"
                         items="{/ZCDS_D4_FI_0012}">
                         <columns>
+                            <Column> <Text text="회사코드" /></Column>
+                            <Column> <Text text="회계연도" /></Column>
                             <Column> <Text text="전표번호" /></Column>
                             <Column> <Text text="고객번호" /></Column>
                             <Column> <Text text="고객명" /></Column>
@@ -200,11 +222,13 @@
                             <Column> <Text text="미결액" /> </Column>
                             <Column> <Text text="지급만기일" /> </Column>
                             <Column> <Text text="수금현황" /> </Column>
-                            <Column> <Text text="지연상태" /> </Column>
+                            <Column hAlign="Center"> <Text text="지연상태" /> </Column>
                         </columns>
                         <items>
                             <ColumnListItem>
                                 <cells>
+                                    <Text text="{bukrs}" />
+                                    <Text text="{gjahr}" />
                                     <Text text="{belnr}" />
                                     <Text text="{kunnr}" />
                                     <Text text="{name}" />
@@ -246,8 +270,18 @@
                                                     type: 'sap.ui.model.type.DateTime',
                                                     formatOptions: { pattern: 'yyyy.MM.dd' }
                                                 }" />
-                                    <ProgressIndicator percentValue="{ClearedRate}" displayValue="{ClearedRate}%" state="{= ${ClearedRate} >= 70 ? 'Success' : 'Warning' }"  />
-                                    <ObjectStatus text="{Delay_status}" />
+                                    <ProgressIndicator percentValue="{ClearedRate}" displayValue="{ClearedRate}%" state="{= ${ClearedRate} >= 80 ? 'Success' : 
+                                                                                                                            ${ClearedRate} >= 30 ? 'Warning' :
+                                                                                                                                     'Error'     }"  />
+                                    <HBox justifyContent="Center">
+                                        <ObjectStatus 
+                                            text="{= ${Delay_status} === 'DEL' ? '지연' : 
+                                                     ${Delay_status} === 'LON' ? '장기지연' :
+                                                     ${Delay_status} === 'WAR' ? '경고' : '정상' }"
+                                            state="{= ${Delay_status} === 'DEL' ? 'Error' : 
+                                                     ${Delay_status} === 'LON' ? 'warning' :
+                                                     ${Delay_status} === 'WAR' ? 'Information' : 'Success' }"/>
+                                    </HBox>
                                 </cells>
                             </ColumnListItem>
                         </items>
