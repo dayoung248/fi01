@@ -190,7 +190,7 @@
                                                             <!--<Input id="idKunnr" value="{/kunnr}" />-->
                                                             <MultiInput
                                                                 id="idKunnr"
-                                                                tokenUpdate=".onKunnrTokenUpdate"
+                                                                tokenUpdate=".onCustomerTokenUpdate"
                                                                 placeholder="Value Help에서 선택"
                                                                 showValueHelp="true"
                                                                 valueHelpRequest=".onValueHelpRequest" />
@@ -306,7 +306,7 @@
                                                     type: 'sap.ui.model.type.DateTime',
                                                     formatOptions: { pattern: 'yyyy.MM.dd' }
                                                 }" />
-                                    <ProgressIndicator percentValue="{ClearedRate}" displayValue="{ClearedRate}%" state="{= ${ClearedRate} >= 80 ? 'Success' : 
+                                    <ProgressIndicator percentValue="{ClearedRate}" displayValue="{ClearedRate}%" state="{= ${ClearedRate} >= 80? 'Success' : 
                                                                                                                             ${ClearedRate} >= 30 ? 'Warning' :
                                                                                                                                      'Error'     }"  />
                                     <HBox justifyContent="Center">
@@ -316,7 +316,7 @@
                                                      ${Delay_status} === 'WAR' ? '임박' : '정상' }"
                                             state="{= ${Delay_status} === 'DEL' ? 'Error' : 
                                                      ${Delay_status} === 'LON' ? 'warning' :
-                                                     ${Delay_status} === 'WAR' ? 'Information' : 'Success' }"/>
+                                                     ${Delay_status} === 'WAR' ? 'Information' : 'Success' }"/> 
                                     </HBox>
                                 </cells>
                             </ColumnListItem>
